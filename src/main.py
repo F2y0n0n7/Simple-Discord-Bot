@@ -4,14 +4,18 @@ from pathlib import Path
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-from uitils.config import get_cog_config, setup_config
+from utils.config import get_cog_config, ensure_config, get_value, ConfigError
 
 
 # .env liegt im Hauptverzeichnis (einen Ordner höher als src/)
 load_dotenv(Path(__file__).resolve().parent.parent / '.env')
 
 TOKEN = os.getenv("BOT_TOKEN")
-PREFIX = os.getenv("BOT_PREFIX", "!")
+try:
+    ensure_config()
+    PREFIX = get_value("bot_prefix")
+except ConfigError as e:
+    raise SystemExit(f"[Main] Config error: {e}")
 
 if not TOKEN:
     raise ValueError("[Main] Error: No BOT_TOKEN found in the .env file.")
@@ -24,14 +28,6 @@ bot = commands.Bot(command_prefix=PREFIX, intents=intents)
 
 async def load_extensions():
     cogs_dir = Path(__file__).resolve().parent / "cogs"
-    config_dir = Path(__file__).resolve().parent / "config.json"
-    if not config_dir.exists():
-        try:
-            setup_config()
-            print("[Main] Config setup successfully.")
-        except Exception as e:
-            print(f"[Main] Error setting up config: {e}")
-
     if not cogs_dir.exists():
         cogs_dir.mkdir(parents=True, exist_ok=True)
         print("[Main] Folder 'src/cogs' created.")
@@ -40,7 +36,12 @@ async def load_extensions():
     for filename in os.listdir(cogs_dir):
         if filename.endswith(".py") and not filename.startswith("__"):
             cog_name = filename[:-3]
-            if not get_cog_config(cog_name)["enabled"]:
+            try:
+                enabled = get_cog_config(cog_name).get("enabled", True)
+            except ConfigError as e:
+                print(f"[Main] ❌ cogs.{cog_name} skipped, config error: {e}")
+                continue
+            if not enabled:
                 print(f"[Main] ⚠️ cogs.{cog_name} is disabled in the config.")
                 continue
             try:

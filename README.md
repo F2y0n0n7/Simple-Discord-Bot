@@ -58,7 +58,6 @@ cp .env.example .env
 Open `.env` and fill in your credentials:
 ```env
 DISCORD_TOKEN=your_actual_discord_bot_token_here
-BOT_PREFIX=!
 ```
 
 ### 4. Configure the Bot Settings (`src/config.json`)

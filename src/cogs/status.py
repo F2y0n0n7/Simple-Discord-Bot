@@ -1,4 +1,4 @@
-﻿import datetime
+import datetime
 import shutil
 import time
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 import discord
 import psutil
 from discord.ext import commands, tasks
-from uitils.config import get_cog_config, ConfigError
+from utils.config import get_cog_config, ConfigError
 
 DEFAULT_INTERVAL = 30
 BAR_LENGTH = 12

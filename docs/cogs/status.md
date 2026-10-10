@@ -19,7 +19,7 @@ All settings for this module are nested under the `"status"` key in `src/config.
 
 | Key | Type | Default Value | Required | Description |
 | :--- | :--- | :--- | :---: | :--- |
-| `enabled` | `Boolean` | `true` | No | Enables or disables this module globally. If `false`, the cog is not loaded. |
+| `enabled` | `Boolean` | `true` | Yes | Enables or disables this module globally. If `false`, the cog is not loaded. |
 | `channel_id` | `Integer` | `None` | Yes | Discord Channel ID where the status message is posted. |
 | `update_interval` | `Integer` | `30` | No | Refresh interval in seconds. Must be greater than 0, otherwise `30` is used. |
 | `embed_color` | `String` | `None` (green) | No | Accent color of the container as hex, e.g. `"#ADD8E6"` or `"0xADD8E6"`. Only the lower 24 bits are used (an alpha byte like `FF` is ignored). |
