@@ -47,7 +47,7 @@ Before you start writing code or testing things out, get your local development 
 4. **Test Locally:**
    - Run the bot to make sure everything works properly before you start developing:
      ```bash
-     python main.py
+     python src/main.py
      ```
 
 ---
